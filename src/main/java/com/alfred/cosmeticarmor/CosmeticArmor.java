@@ -17,11 +17,11 @@ public class CosmeticArmor implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> {
-			CosmeticArmorInventory oldInv = oldPlayer.getCosmeticArmor();
-			CosmeticArmorInventory newInv = newPlayer.getCosmeticArmor();
-			newInv.copyFrom(oldInv);
-		});
+		ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) ->
+				newPlayer.getCosmeticArmor().copyFrom(oldPlayer.getCosmeticArmor()));
+
+		ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) ->
+				newPlayer.getCosmeticArmor().syncToTrackingAndSelf(newPlayer));
 
 		ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, oldWorld, newWorld) -> {
 			player.getCosmeticArmor().syncToTrackingAndSelf(player);
